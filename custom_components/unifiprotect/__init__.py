@@ -114,10 +114,6 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
             hass, call, hass.data[DOMAIN][entry.entry_id]
         )
 
-    async def async_set_ir_mode(call):
-        """Call Set Infrared Mode."""
-        await async_handle_set_ir_mode(hass, call, hass.data[DOMAIN][entry.entry_id])
-
     hass.services.async_register(
         DOMAIN,
         SERVICE_SET_RECORDING_MODE,
@@ -130,9 +126,6 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         SERVICE_SAVE_THUMBNAIL,
         async_save_thumbnail,
         schema=SAVE_THUMBNAIL_SCHEMA,
-    )
-    hass.services.async_register(
-        DOMAIN, SERVICE_SET_IR_MODE, async_set_ir_mode, schema=SET_IR_MODE_SCHEMA,
     )
 
     for platform in UNIFI_PROTECT_PLATFORMS:
@@ -171,22 +164,6 @@ async def async_handle_set_recording_mode(hass, call, server):
         rec_mode = "motion"
 
     await server["upv"].set_camera_recording(camera_id, rec_mode)
-
-
-async def async_handle_set_ir_mode(hass, call, server):
-    """Handle enable Always recording."""
-    entity_id = call.data[ATTR_ENTITY_ID]
-    entity_state = hass.states.get(entity_id[0])
-    camera_id = entity_state.attributes[ATTR_CAMERA_ID]
-    if camera_id is None:
-        _LOGGER.error("Unable to get Camera ID for selected Camera")
-        return
-
-    ir_mode = call.data[CONF_IR_MODE].lower()
-    if ir_mode not in {"always_on", "auto", "always_off", "led_off"}:
-        ir_mode = "auto"
-
-    await server["upv"].set_camera_ir(camera_id, ir_mode)
 
 
 async def async_handle_save_thumbnail_service(hass, call, server):

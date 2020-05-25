@@ -58,6 +58,8 @@ UNIFI_PROTECT_PLATFORMS = [
     "camera",
 ]
 
+VALID_IR_MODES = [TYPE_IR_ON, TYPE_IR_AUTO, TYPE_IR_OFF, TYPE_IR_LED_OFF]
+
 SAVE_THUMBNAIL_SCHEMA = vol.Schema(
     {
         vol.Required(ATTR_ENTITY_ID): cv.entity_ids,
@@ -76,6 +78,6 @@ SET_RECORDING_MODE_SCHEMA = vol.Schema(
 SET_IR_MODE_SCHEMA = vol.Schema(
     {
         vol.Required(ATTR_ENTITY_ID): cv.entity_ids,
-        vol.Optional(CONF_IR_MODE, default=TYPE_IR_AUTO): cv.string,
+        vol.Optional(CONF_IR_MODE, default=TYPE_IR_AUTO): vol.In(VALID_IR_MODES),
     }
 )

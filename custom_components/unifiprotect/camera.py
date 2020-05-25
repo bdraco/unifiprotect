@@ -7,6 +7,7 @@ from homeassistant.const import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.helpers import entity_platform
 
 from .const import (
     ATTR_CAMERA_ID,
@@ -16,6 +17,8 @@ from .const import (
     DEFAULT_ATTRIBUTION,
     DEFAULT_BRAND,
     DEVICE_CLASS_DOORBELL,
+    SERVICE_SET_IR_MODE,
+    SET_IR_MODE_SCHEMA,
 )
 from .entity import UnifiProtectEntity
 
@@ -35,6 +38,12 @@ async def async_setup_entry(
 
     async_add_entities(
         [UnifiProtectCamera(upv_object, coordinator, camera) for camera in cameras]
+    )
+
+    platform = entity_platform.current_platform.get()
+
+    platform.async_register_entity_service(
+        SERVICE_SET_IR_MODE, SET_IR_MODE_SCHEMA, "async_set_ir_mode"
     )
 
     return True
@@ -101,6 +110,10 @@ class UnifiProtectCamera(UnifiProtectEntity, Camera):
             ATTR_CAMERA_ID: self._camera_id,
             ATTR_LAST_TRIP_TIME: last_trip_time,
         }
+
+    async def async_set_ir_mode(self, ir_mode):
+        """Set camera ir mode."""
+        await self.upv_object.set_camera_ir(self._camera_id, ir_mode)
 
     async def async_update(self):
         """Update the entity.
