@@ -12,16 +12,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.helpers.typing import HomeAssistantType
 
-from .const import (
-    ATTR_CAMERA_TYPE,
-    CONF_IR_OFF,
-    CONF_IR_ON,
-    DEFAULT_ATTRIBUTION,
-    DOMAIN,
-    TYPE_RECORD_ALLWAYS,
-    TYPE_RECORD_MOTION,
-    TYPE_RECORD_NEVER,
-)
+from .const import (ATTR_CAMERA_TYPE, CONF_IR_OFF, CONF_IR_ON,
+                    DEFAULT_ATTRIBUTION, DOMAIN, TYPE_RECORD_ALLWAYS,
+                    TYPE_RECORD_MOTION, TYPE_RECORD_NEVER)
 from .entity import UnifiProtectEntity
 
 _LOGGER = logging.getLogger(__name__)
@@ -39,8 +32,8 @@ async def async_setup_entry(
 ) -> None:
     """Set up switches for UniFi Protect integration."""
     upv_object = hass.data[DOMAIN][entry.entry_id]["upv"]
-    coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
-    if not coordinator.data:
+    protect_data = hass.data[DOMAIN][entry.entry_id]["protect_data"]
+    if not protect_data.data:
         return
 
     ir_on = entry.data[CONF_IR_ON]
@@ -55,11 +48,11 @@ async def async_setup_entry(
 
     switches = []
     for switch in SWITCH_TYPES:
-        for camera in coordinator.data:
+        for camera in protect_data.data:
             switches.append(
                 UnifiProtectSwitch(
                     upv_object,
-                    coordinator,
+                    protect_data,
                     camera,
                     switch,
                     ir_on,
@@ -76,9 +69,9 @@ async def async_setup_entry(
 class UnifiProtectSwitch(UnifiProtectEntity, SwitchDevice):
     """A Unifi Protect Switch."""
 
-    def __init__(self, upv_object, coordinator, camera_id, switch, ir_on, ir_off):
+    def __init__(self, upv_object, protect_data, camera_id, switch, ir_on, ir_off):
         """Initialize an Unifi Protect Switch."""
-        super().__init__(upv_object, coordinator, camera_id, switch)
+        super().__init__(upv_object, protect_data, camera_id, switch)
         self.upv = upv_object
         self._name = f"{SWITCH_TYPES[switch][0]} {self._camera_data['name']}"
         self._icon = f"mdi:{SWITCH_TYPES[switch][1]}"
@@ -139,7 +132,7 @@ class UnifiProtectSwitch(UnifiProtectEntity, SwitchDevice):
         else:
             _LOGGER.debug("Changing Status Light to On")
             await self.upv.set_camera_status_light(self._camera_id, True)
-        await self.coordinator.async_request_refresh()
+        await self.protect_data.async_request_refresh()
 
     async def async_turn_off(self, **kwargs):
         """Turn the device off."""
@@ -152,4 +145,4 @@ class UnifiProtectSwitch(UnifiProtectEntity, SwitchDevice):
         else:
             _LOGGER.debug("Turning off Recording")
             await self.upv.set_camera_recording(self._camera_id, TYPE_RECORD_NEVER)
-        await self.coordinator.async_request_refresh()
+        await self.protect_data.async_request_refresh()

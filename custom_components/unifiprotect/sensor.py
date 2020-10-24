@@ -6,7 +6,8 @@ from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.typing import HomeAssistantType
 
-from .const import ATTR_CAMERA_TYPE, DEFAULT_ATTRIBUTION, DOMAIN, TYPE_RECORD_NEVER
+from .const import (ATTR_CAMERA_TYPE, DEFAULT_ATTRIBUTION, DOMAIN,
+                    TYPE_RECORD_NEVER)
 from .entity import UnifiProtectEntity
 
 _LOGGER = logging.getLogger(__name__)
@@ -21,14 +22,14 @@ async def async_setup_entry(
 ) -> None:
     """Set up sensors for UniFi Protect integration."""
     upv_object = hass.data[DOMAIN][entry.entry_id]["upv"]
-    coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
-    if not coordinator.data:
+    protect_data = hass.data[DOMAIN][entry.entry_id]["protect_data"]
+    if not protect_data.data:
         return
 
     sensors = []
     for sensor in SENSOR_TYPES:
-        for camera in coordinator.data:
-            sensors.append(UnifiProtectSensor(upv_object, coordinator, camera, sensor))
+        for camera in protect_data.data:
+            sensors.append(UnifiProtectSensor(upv_object, protect_data, camera, sensor))
             _LOGGER.debug("UNIFIPROTECT SENSOR CREATED: %s", sensor)
 
     async_add_entities(sensors, True)
@@ -39,9 +40,9 @@ async def async_setup_entry(
 class UnifiProtectSensor(UnifiProtectEntity, Entity):
     """A Ubiquiti Unifi Protect Sensor."""
 
-    def __init__(self, upv_object, coordinator, camera_id, sensor):
+    def __init__(self, upv_object, protect_data, camera_id, sensor):
         """Initialize an Unifi Protect sensor."""
-        super().__init__(upv_object, coordinator, camera_id, sensor)
+        super().__init__(upv_object, protect_data, camera_id, sensor)
         self._name = f"{SENSOR_TYPES[sensor][0]} {self._camera_data['name']}"
         self._units = SENSOR_TYPES[sensor][1]
         self._icons = SENSOR_TYPES[sensor][2]
