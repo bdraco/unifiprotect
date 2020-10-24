@@ -4,7 +4,7 @@ import logging
 
 from homeassistant.core import callback
 from homeassistant.helpers.event import async_track_time_interval
-from pyunifiprotect.pyunifiprotect.unifi_protect_server import NvrError
+from pyunifiprotect.unifi_protect_server import NvrError
 
 _LOGGER = logging.getLogger(__name__)
 
