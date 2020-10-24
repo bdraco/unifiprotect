@@ -41,7 +41,7 @@ class UnifiProtectData:
             self._update_interval()
             self._update_interval = None
 
-    async def async_refresh(self):
+    async def async_refresh(self, *_):
         """Update the data."""
         try:
             self._async_process_updates(await self._protectserver.update())
