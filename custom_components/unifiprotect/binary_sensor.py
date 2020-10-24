@@ -51,7 +51,7 @@ async def async_setup_entry(
             "UNIFIPROTECT MOTION SENSOR CREATED: %s", protect_data.data[camera]["name"]
         )
 
-    async_add_entities(sensors, True)
+    async_add_entities(sensors)
 
     return True
 

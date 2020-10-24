@@ -55,7 +55,7 @@ class UnifiProtectEntity(Entity):
 
         Only used by the generic entity update service.
         """
-        await self.protect_data.async_efresh()
+        await self.protect_data.async_refresh()
 
     @property
     def available(self):

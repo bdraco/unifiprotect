@@ -61,7 +61,7 @@ async def async_setup_entry(
             )
             _LOGGER.debug("UNIFIPROTECT SWITCH CREATED: %s", switch)
 
-    async_add_entities(switches, True)
+    async_add_entities(switches)
 
     return True
 
