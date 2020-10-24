@@ -6,8 +6,7 @@ from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.typing import HomeAssistantType
 
-from .const import (ATTR_CAMERA_TYPE, DEFAULT_ATTRIBUTION, DOMAIN,
-                    TYPE_RECORD_NEVER)
+from .const import ATTR_CAMERA_TYPE, DEFAULT_ATTRIBUTION, DOMAIN, TYPE_RECORD_NEVER
 from .entity import UnifiProtectEntity
 
 _LOGGER = logging.getLogger(__name__)

@@ -2,8 +2,9 @@
 import logging
 
 try:
-    from homeassistant.components.binary_sensor import \
-        BinarySensorEntity as BinarySensorDevice
+    from homeassistant.components.binary_sensor import (
+        BinarySensorEntity as BinarySensorDevice,
+    )
 except ImportError:
     # Prior to HA v0.110
     from homeassistant.components.binary_sensor import BinarySensorDevice
@@ -13,8 +14,14 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION, ATTR_LAST_TRIP_TIME
 from homeassistant.helpers.typing import HomeAssistantType
 
-from .const import (ATTR_EVENT_LENGTH, ATTR_EVENT_OBJECT, ATTR_EVENT_SCORE,
-                    DEFAULT_ATTRIBUTION, DEVICE_CLASS_DOORBELL, DOMAIN)
+from .const import (
+    ATTR_EVENT_LENGTH,
+    ATTR_EVENT_OBJECT,
+    ATTR_EVENT_SCORE,
+    DEFAULT_ATTRIBUTION,
+    DEVICE_CLASS_DOORBELL,
+    DOMAIN,
+)
 from .entity import UnifiProtectEntity
 
 _LOGGER = logging.getLogger(__name__)

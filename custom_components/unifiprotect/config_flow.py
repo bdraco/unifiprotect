@@ -3,17 +3,33 @@ import logging
 
 import voluptuous as vol
 from aiohttp import CookieJar
+
 # from homeassistant.config_entries import ConfigFlow
 from homeassistant import config_entries
-from homeassistant.const import (CONF_HOST, CONF_ID, CONF_PASSWORD, CONF_PORT,
-                                 CONF_SCAN_INTERVAL, CONF_USERNAME)
+from homeassistant.const import (
+    CONF_HOST,
+    CONF_ID,
+    CONF_PASSWORD,
+    CONF_PORT,
+    CONF_SCAN_INTERVAL,
+    CONF_USERNAME,
+)
 from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 from pyunifiprotect import NotAuthorized, NvrError, UpvServer
 
-from .const import (CONF_IR_OFF, CONF_IR_ON, CONF_SNAPSHOT_DIRECT,
-                    DEFAULT_PORT, DEFAULT_SCAN_INTERVAL, DOMAIN, TYPE_IR_AUTO,
-                    TYPE_IR_OFF, TYPES_IR_OFF, TYPES_IR_ON)
+from .const import (
+    CONF_IR_OFF,
+    CONF_IR_ON,
+    CONF_SNAPSHOT_DIRECT,
+    DEFAULT_PORT,
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+    TYPE_IR_AUTO,
+    TYPE_IR_OFF,
+    TYPES_IR_OFF,
+    TYPES_IR_ON,
+)
 
 _LOGGER = logging.getLogger(__name__)
 

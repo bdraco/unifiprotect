@@ -12,9 +12,16 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.helpers.typing import HomeAssistantType
 
-from .const import (ATTR_CAMERA_TYPE, CONF_IR_OFF, CONF_IR_ON,
-                    DEFAULT_ATTRIBUTION, DOMAIN, TYPE_RECORD_ALLWAYS,
-                    TYPE_RECORD_MOTION, TYPE_RECORD_NEVER)
+from .const import (
+    ATTR_CAMERA_TYPE,
+    CONF_IR_OFF,
+    CONF_IR_ON,
+    DEFAULT_ATTRIBUTION,
+    DOMAIN,
+    TYPE_RECORD_ALLWAYS,
+    TYPE_RECORD_MOTION,
+    TYPE_RECORD_NEVER,
+)
 from .entity import UnifiProtectEntity
 
 _LOGGER = logging.getLogger(__name__)

@@ -26,11 +26,10 @@ class UnifiProtectData:
 
     async def async_setup(self):
         """Setup the data."""
-        await self._protectserver.async_connect_ws()
-        await self.async_refresh()
         self._unsub_websocket = self._protectserver.subscribe_websocket(
             self._async_process_updates
         )
+        await self.async_refresh()
 
     async def async_stop(self):
         """Stop processing data."""

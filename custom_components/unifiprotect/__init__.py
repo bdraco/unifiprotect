@@ -8,16 +8,26 @@ import homeassistant.helpers.device_registry as dr
 from aiohttp import CookieJar
 from aiohttp.client_exceptions import ServerDisconnectedError
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (CONF_HOST, CONF_ID, CONF_PASSWORD, CONF_PORT,
-                                 CONF_SCAN_INTERVAL, CONF_USERNAME)
+from homeassistant.const import (
+    CONF_HOST,
+    CONF_ID,
+    CONF_PASSWORD,
+    CONF_PORT,
+    CONF_SCAN_INTERVAL,
+    CONF_USERNAME,
+)
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 from pyunifiprotect import NotAuthorized, NvrError, UpvServer
 
 from .const import (
-    CONF_SNAPSHOT_DIRECT, DEFAULT_BRAND, DEFAULT_SCAN_INTERVAL, DOMAIN,
-    UNIFI_PROTECT_PLATFORMS)
+    CONF_SNAPSHOT_DIRECT,
+    DEFAULT_BRAND,
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+    UNIFI_PROTECT_PLATFORMS,
+)
 from .data import UnifiProtectData
 
 SCAN_INTERVAL = timedelta(seconds=DEFAULT_SCAN_INTERVAL)
