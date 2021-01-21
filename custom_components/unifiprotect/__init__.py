@@ -89,6 +89,8 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     if not protect_data.last_update_success:
         raise ConfigEntryNotReady
 
+    _LOGGER.debug("Init data: %s", protect_data.data)
+
     update_listener = entry.add_update_listener(_async_options_updated)
 
     hass.data[DOMAIN][entry.entry_id] = {
